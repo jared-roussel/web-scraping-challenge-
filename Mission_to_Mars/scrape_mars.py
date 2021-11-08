@@ -64,21 +64,40 @@ def scrape():
     soup = bs(main_hemisphere_html, 'html.parser')
 
     #Get titles and png src of the hemisphere images
-    titles = []
-    png = []
-    all_images_titles = soup.find_all('h3')
-    for item in all_images_titles:
-        title = str.strip(item.text)
-        titles.append(title)
+    image_section = soup.find('div',class_="collapsible results")
+    image_information = image_section.find_all('div', class_="item")
+    hemisphere_dict = []
+   
 
-    all_image_links = soup.find_all('a', class_="itemLink product-item")
-    #all_image_links
-    for link in all_image_links:
-        href = link['href']
-        full_url = main_hempisphere_url + href
-        #print(full_url)
-        browser.visit(full_url)
-        html = browser.html
-        soup = bs(html,'html.parser')
-        image = soup.find('li').a['href']
 
+    #Get titles and png src of the hemisphere images
+    
+    for image in image_information:
+        try:
+            image_title = image.find('h3')
+            title = str.strip(image_title.text)
+            #titles.append(title)
+            href = image.a['href']
+            full_url = main_hempisphere_url + href
+            #print(full_url)
+            browser.visit(full_url)
+            html = browser.html
+            soup = bs(html,'html.parser')
+            image_source = soup.find('img', class_="wide-image")['src']
+            image_url = main_hempisphere_url + image_source
+            print(image_url)
+            #image_url_list.append(image_url)
+            hemisphere_dict.append({"title": title, "url": image_url})
+
+        except Exception as e:
+            print(e)
+
+    #Final dictionary
+    final_dict = {"title": title,
+    "article": news_article,
+    "featured_image": featured_image_url,
+    "data_table" : facts_html,
+    "hemispheres" : hemisphere_dict}
+
+    browser.quit()
+    return final_dict
