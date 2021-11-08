@@ -27,8 +27,8 @@
   </br>
     <div class="row">
       <div class="col-md-12">
-        <h4>{{mars_data.title}}</h4>
-        <p>{{mars_data.article}}</p>
+        <h4>{{mars.title}}</h4>
+        <p>{{mars.article}}</p>
       </div>
     </div>
   <hr>
@@ -36,14 +36,14 @@
       <div class="col-md-8 border">
         <h2 class="">Featured Image</h2> 
         </br>
-        <img class="col-md-12 border" src="{{mars_data.featured_image}}" >
+        <img class="col-md-12 border" src="{{mars.featured_image}}" >
       </div>
       <div class="col-md-4">
         
         </br>
         <div class="card">
           <h3>Mars vs Earth</h3>
-            {{ mars_data.data_table | safe}}
+            {{ mars.data_table | safe}}
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
     </div>
     </br>
     <div class="row">       
-            {% for item in mars_data.hemisphere %} 
+            {% for item in mars.hemisphere %} 
               <div class="col-6 border">
               </br>
                     <div>
