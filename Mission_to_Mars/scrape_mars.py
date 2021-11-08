@@ -5,6 +5,8 @@ import pymongo
 from splinter import Browser
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
+from flask import Flask, render_template, redirect
+from flask_pymongo import PyMongo
 
 #Define function
 def webdriver():
@@ -101,3 +103,11 @@ def scrape():
 
     browser.quit()
     return final_dict
+
+#Import into mongodb
+def mongodb():
+    conn = 'mongodb://localhost:27017'
+    client = pymongo.MongoClient(conn)
+    db = client.mars_db
+    db.mars_data.drop()
+    db.mars_data.insert_one(final_dict)
